@@ -170,15 +170,18 @@ function App() {
   const hasPreviousTargets = needsDailyTargets && (state.dailyTargets || []).length > 0;
 
   // Temporary local state for targets inside the prompt modal
-  // Pre-fill with yesterday's targets (reset completed status) so Zeynep can reuse them
-  const [tempTargets, setTempTargets] = useState(() => {
-    if (hasPreviousTargets) {
-      return state.dailyTargets.map(t => ({ ...t, completed: false, id: 'dt_' + Date.now() + Math.random() }));
-    }
-    return [];
-  });
+  const [tempTargets, setTempTargets] = useState([]);
+  const [tempTargetsLoaded, setTempTargetsLoaded] = useState(false);
   const [newTargetInput, setNewTargetInput] = useState('');
   const [inlineTargetInput, setInlineTargetInput] = useState('');
+
+  // Pre-fill tempTargets with yesterday's targets when Firebase data arrives
+  useEffect(() => {
+    if (hasPreviousTargets && !tempTargetsLoaded) {
+      setTempTargets(state.dailyTargets.map(t => ({ ...t, completed: false, id: 'dt_' + Date.now() + Math.random() })));
+      setTempTargetsLoaded(true);
+    }
+  }, [hasPreviousTargets, state.dailyTargets, tempTargetsLoaded]);
 
   const handleAddInlineTarget = () => {
     if (!inlineTargetInput.trim()) return;
