@@ -167,9 +167,16 @@ function App() {
   const today = new Date().toISOString().split('T')[0];
   const needsDailyTargets = state.dailyTargetDate !== today;
   const needsTargetScore = !state.targetScore;
+  const hasPreviousTargets = needsDailyTargets && (state.dailyTargets || []).length > 0;
 
   // Temporary local state for targets inside the prompt modal
-  const [tempTargets, setTempTargets] = useState([]);
+  // Pre-fill with yesterday's targets (reset completed status) so Zeynep can reuse them
+  const [tempTargets, setTempTargets] = useState(() => {
+    if (hasPreviousTargets) {
+      return state.dailyTargets.map(t => ({ ...t, completed: false, id: 'dt_' + Date.now() + Math.random() }));
+    }
+    return [];
+  });
   const [newTargetInput, setNewTargetInput] = useState('');
   const [inlineTargetInput, setInlineTargetInput] = useState('');
 
@@ -191,7 +198,9 @@ function App() {
     if (tempTargets.length === 0) return;
     handleUpdateState({
       dailyTargetDate: today,
-      dailyTargets: tempTargets
+      dailyTargets: tempTargets,
+      daily: { date: today, paragraf: false, problem: false },
+      dailyXP: 0
     });
     setTempTargets([]);
   };
@@ -502,9 +511,19 @@ function App() {
             </div>
 
             <h2 style={{ fontFamily: 'Baloo 2', color: 'var(--accent-purple)', margin: '0 0 10px' }}>Bugünkü Hedeflerin 🎯</h2>
-            <p style={{ fontWeight: '700', color: 'var(--text-light)', fontSize: '14px', lineHeight: '1.4', marginBottom: '15px' }}>
-              Bugün LGS maratonunda neleri tamamlamak istersin? Birden fazla hedef ekleyebilirsin.
-            </p>
+            
+            {hasPreviousTargets && (
+              <div style={{ background: '#F0FFF4', border: '2px dashed #86E3CE', borderRadius: '12px', padding: '12px', marginBottom: '15px', textAlign: 'left' }}>
+                <div style={{ fontSize: '12px', color: '#2D9F7B', fontWeight: '800', marginBottom: '4px' }}>💡 Dünden kalan hedeflerin otomatik eklendi!</div>
+                <div style={{ fontSize: '13px', color: 'var(--text-light)', fontWeight: '700' }}>İstersen olduğu gibi onayla, istersen düzenle veya yenilerini ekle.</div>
+              </div>
+            )}
+
+            {!hasPreviousTargets && (
+              <p style={{ fontWeight: '700', color: 'var(--text-light)', fontSize: '14px', lineHeight: '1.4', marginBottom: '15px' }}>
+                Bugün LGS maratonunda neleri tamamlamak istersin? Birden fazla hedef ekleyebilirsin.
+              </p>
+            )}
             
             {/* Added targets list inside modal */}
             {tempTargets.length > 0 && (
@@ -552,7 +571,7 @@ function App() {
               disabled={tempTargets.length === 0}
               style={{ opacity: tempTargets.length === 0 ? 0.6 : 1, cursor: tempTargets.length === 0 ? 'not-allowed' : 'pointer' }}
             >
-              Hedeflerimi Belirledim 🚀
+              {hasPreviousTargets ? 'Hedeflerimle Devam Et 🚀' : 'Hedeflerimi Belirledim 🚀'}
             </button>
           </div>
         </div>
