@@ -15,6 +15,7 @@ function App() {
   const [state, setState] = useState({
     name: 'Zeynep',
     xp: 0,
+    completedDailyXP: 0,
     streak: 0,
     lastActive: null,
     completed: {}, 
@@ -41,19 +42,30 @@ function App() {
   });
   
   const [selectedNode, setSelectedNode] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const unsubscribe = subscribeToProgress((data) => {
       if (data) {
         const today = new Date().toISOString().split('T')[0];
         if (data.daily && data.daily.date !== today) {
+          // Day has changed! Archive yesterday's daily targets and quests XP
+          const completedTargets = (data.dailyTargets || []).filter(t => t.completed).length;
+          const allCompleted = (data.dailyTargets || []).length > 0 && (data.dailyTargets || []).every(t => t.completed);
+          const targetsXP = completedTargets * 15 + (allCompleted ? 20 : 0);
+          const dailyQuestXP = data.dailyXP || 0;
+          const earnedXP = targetsXP + dailyQuestXP;
+
+          data.completedDailyXP = (data.completedDailyXP || 0) + earnedXP;
           data.daily = { date: today, paragraf: false, problem: false };
+          data.dailyXP = 0;
           saveProgress(data);
         } else if (!data.daily) {
            data.daily = { date: today, paragraf: false, problem: false };
            data.dailyXP = 0;
         }
         setState(data);
+        setIsLoaded(true);
       }
     });
     return () => unsubscribe();
@@ -67,6 +79,7 @@ function App() {
 
   const computeXP = () => {
     let xp = state.dailyXP || 0;
+    xp += state.completedDailyXP || 0; // Add archived daily XP
     Object.values(SUBJECTS).forEach(subject => {
       subject.nodes.forEach(n => {
         const subs = state.completed[n.id] || [];
@@ -96,11 +109,13 @@ function App() {
     const mList = state.mistakes || [];
     xp += mList.filter(m => m.solved).length * 15;
 
-    // XP from Daily Targets
-    const dTargets = state.dailyTargets || [];
-    xp += dTargets.filter(t => t.completed).length * 15;
-    if (dTargets.length > 0 && dTargets.every(t => t.completed)) {
-      xp += 20; // Full day target completion bonus
+    // XP from Daily Targets (ONLY count if they are for today!)
+    if (state.dailyTargetDate === today) {
+      const dTargets = state.dailyTargets || [];
+      xp += dTargets.filter(t => t.completed).length * 15;
+      if (dTargets.length > 0 && dTargets.every(t => t.completed)) {
+        xp += 20; // Full day target completion bonus
+      }
     }
 
     // XP from Practice Exams (Deneme Sınavları)
@@ -128,13 +143,15 @@ function App() {
   const prevLevel = useRef(level);
 
   useEffect(() => {
-    if (level > prevLevel.current) {
+    if (isLoaded && level > prevLevel.current) {
       confetti({ particleCount: 150, spread: 80, scalar: 1.2 });
       setLevelUpText(`Tebrikler Zeynep! Seviye ${level} oldun! 🌟 Harikasın, öğrenmeye devam! 🎉`);
       setShowLevelUp(true);
     }
-    prevLevel.current = level;
-  }, [level]);
+    if (isLoaded) {
+      prevLevel.current = level;
+    }
+  }, [level, isLoaded]);
 
   const getUnlockedBadgesCount = () => {
     let count = 0;

@@ -112,6 +112,7 @@ function ZeynepBag({ state, onUpdate, currentXP, isAdmin }) {
                 if (window.confirm('Tüm verileri sıfırlamak ve temiz bir başlangıç yapmak istediğine emin misin? Bu işlem geri alınamaz!')) {
                   onUpdate({
                     xp: 0,
+                    completedDailyXP: 0,
                     streak: 0,
                     lastActive: null,
                     completed: {},
