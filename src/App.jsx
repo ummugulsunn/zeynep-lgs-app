@@ -10,6 +10,8 @@ import SOSButton from './components/SOSButton';
 import confetti from 'canvas-confetti';
 import './index.css';
 
+const today = new Date().toISOString().split('T')[0];
+
 function App() {
   const [activeTab, setActiveTab] = useState('matematik');
   const [state, setState] = useState({
@@ -181,7 +183,6 @@ function App() {
     { id: 'dashboard', label: 'Zeynep\'in Karnesi', icon: '📊', color: '#B593FF' }
   ];
 
-  const today = new Date().toISOString().split('T')[0];
   const needsDailyTargets = state.dailyTargetDate !== today;
   const needsTargetScore = !state.targetScore;
   const hasPreviousTargets = needsDailyTargets && (state.dailyTargets || []).length > 0;
