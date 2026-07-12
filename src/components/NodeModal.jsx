@@ -3,6 +3,11 @@ import confetti from 'canvas-confetti';
 import { SUBJECTS } from '../data/curriculum';
 
 const TEACHERS_PER_SUBJECT = {
+  matematik7: [
+    { name: 'Şenol Hoca 📐', query: 'Şenol Hoca 7. Sınıf Matematik' },
+    { name: 'Rehber Matematik 📐', query: 'Rehber Matematik 7. Sınıf Matematik' },
+    { name: 'Tonguç Akademi 🎓', query: 'Tonguç Akademi 7. Sınıf Matematik' }
+  ],
   matematik: [
     { name: 'Şenol Hoca 📐', query: 'Şenol Hoca LGS 8. sınıf' },
     { name: 'Rehber Matematik 📐', query: 'Rehber Matematik LGS 8. sınıf' },

@@ -19,6 +19,26 @@ export const SUBJECTS = {
       { id:'t12', title:'Metin Türleri ve Sanatlar', desc:'Edebiyat dünyasına giriş.', subtopics:['Hikaye, Roman, Masal','Söz Sanatları (Kişileştirme, Benzetme)','Görsel ve Sözel Mantık'], quiz:[{q:'"Güneş bize gülümsüyordu." cümlesindeki söz sanatı nedir?', opts:['Abartma','Kişileştirme','Benzetme','Tezat'], answer:1}] }
     ]
   },
+  matematik7: {
+    id: 'matematik7',
+    name: 'Matematik (7. Sınıf)',
+    icon: '🧮',
+    color: '#E9C46A',
+    nodes: [
+      { id:'m7_1', title:'Tam Sayılarla İşlemler', desc:'Tam sayılarla toplama, çıkarma, çarpma ve bölme işlemleri.', subtopics:['Tam Sayılarla Toplama ve Çıkarma','Tam Sayılarla Çarpma ve Bölme','Tam Sayıların Kuvvetleri','Tam Sayı Problemleri'], quiz:[{q:'-8 + (-3) x (-2) = ?', opts:['-14','-2','14','2'], answer:1}] },
+      { id:'m7_2', title:'Rasyonel Sayılar', desc:'Rasyonel sayıları tanıma, sayı doğrusunda gösterme ve ondalık gösterim.', subtopics:['Rasyonel Sayıları Sayı Doğrusunda Gösterme','Ondalık Gösterim ve Devirli Ondalık Sayılar','Rasyonel Sayıları Karşılaştırma'], quiz:[{q:'1/5 rasyonel sayısının ondalık gösterimi hangisidir?', opts:['0,1','0,2','0,5','1,5'], answer:1}] },
+      { id:'m7_3', title:'Rasyonel Sayılarla İşlemler', desc:'Rasyonel sayılarla toplama, çıkarma, çarpma, bölme ve çok adımlı işlemler.', subtopics:['Rasyonel Sayılarla Toplama ve Çıkarma','Rasyonel Sayılarla Çarpma ve Bölme','Rasyonel Sayıların Karesi ve Küpü','Çok Adımlı İşlemler ve Problemler'], quiz:[{q:'(1/2) x (2/3) + 1/3 = ?', opts:['1/2','2/3','1','5/6'], answer:1}] },
+      { id:'m7_4', title:'Cebirsel İfadeler', desc:'Cebirsel ifadelerle toplama, çıkarma, çarpma ve örüntüler.', subtopics:['Cebirsel İfadelerle Toplama ve Çıkarma','Cebirsel İfadelerle Çarpma','Sayı Örüntüleri'], quiz:[{q:'3x - (x - 2) cebirsel ifadesinin en sade hali nedir?', opts:['2x - 2','2x + 2','4x - 2','4x + 2'], answer:1}] },
+      { id:'m7_5', title:'Eşitlik ve Denklem', desc:'Eşitliğin korunumu ve birinci dereceden bir bilinmeyenli denklemler.', subtopics:['Eşitliğin Korunumu İlkesi','Birinci Dereceden Bir Bilinmeyenli Denklem Çözme','Denklem Kurma Problemleri'], quiz:[{q:'3x + 5 = 20 ise x kaçtır?', opts:['3','4','5','6'], answer:2}] },
+      { id:'m7_6', title:'Oran ve Orantı', desc:'Oran, orantı, doğru orantı ve ters orantı kavramları.', subtopics:['Oran ve Orantıyı Tanıma','Doğru Orantı ve Orantı Sabiti','Ters Orantı','Oran ve Orantı Problemleri'], quiz:[{q:'A ile B doğru orantılıdır. A=6 iken B=10 ise, A=18 iken B kaç olur?', opts:['20','24','30','36'], answer:2}] },
+      { id:'m7_7', title:'Yüzdeler', desc:'Bir çokluğun yüzdesini hesaplama ve yüzde problemleri.', subtopics:['Bir Çokluğun Belirli Bir Yüzdesini Bulma','Bir Yüzdesi Verilen Çokluğu Bulma','Faiz, KDV ve İndirim Problemleri'], quiz:[{q:'120 sayısının %15\'i kaçtır?', opts:['12','15','18','20'], answer:2}] },
+      { id:'m7_8', title:'Doğrular ve Açılar', desc:'Açıortay, paralel iki doğrunun bir kesenle yaptığı açılar.', subtopics:['Bir Açının Açıortayı','Paralel İki Doğru ve Bir Kesen','Yöndeş, İç Ters ve Dış Ters Açılar'], quiz:[{q:'Paralel iki doğruyu kesen bir doğrunun oluşturduğu yöndeş açılar için hangisi doğrudur?', opts:['Toplamları 180 derecedir','Ölçüleri eşittir','Birbirini 90 dereceye tamamlar','Biri dar diğeri geniş açıdır'], answer:1}] },
+      { id:'m7_9', title:'Çokgenler', desc:'Düzgün çokgenler, açılar, köşegenler ve alan formülleri.', subtopics:['Düzgün Çokgenler ve Özellikleri','İç ve Dış Açılar Toplamı','Yamuk, Paralelkenar ve Eşkenar Dörtgenin Alanı'], quiz:[{q:'Düzgün bir altıgenin bir iç açısı kaç derecedir?', opts:['108','120','135','140'], answer:1}] },
+      { id:'m7_10', title:'Çember ve Daire', desc:'Çemberde açılar, çemberin uzunluğu ve dairenin alanı.', subtopics:['Çemberde Merkez Açı ve Yaylar','Çemberin ve Çember Yayının Uzunluğu','Dairenin ve Daire Diliminin Alanı'], quiz:[{q:'Yarıçapı 5 cm olan bir dairenin alanı kaç cm²\'dir? (pi = 3 alınız)', opts:['30','50','75','150'], answer:2}] },
+      { id:'m7_11', title:'Veri Analizi', desc:'Aritmetik ortalama, ortanca, tepe değer ve çizgi grafiği.', subtopics:['Aritmetik Ortalama, Medyan ve Mod','Verileri Uygun Grafiklerle Gösterme','Grafikler Arası Dönüşümler'], quiz:[{q:'Bir veri grubunda en çok tekrar eden değere ne ad verilir?', opts:['Aritmetik Ortalama','Tepe Değer (Mod)','Ortanca (Medyan)','Açıklık'], answer:1}] },
+      { id:'m7_12', title:'Cisimlerin Farklı Yönlerden Görünümleri', desc:'Üç boyutlu cisimlerin iki boyutlu görünümleri.', subtopics:['Ön, Arka, Sağ, Sol ve Üstten Görünümler','Eş Küplerle Oluşturulan Yapılar'], quiz:[{q:'Eş küplerden oluşan bir yapının farklı yönlerden çizimlerinde kullanılan en temel yöntem hangisidir?', opts:['İki boyutlu iz düşüm çizimi','Perspektif çizimi','Perspektif boyama','İzometrik renklendirme'], answer:0}] }
+    ]
+  },
   matematik: {
     id: 'matematik',
     name: 'Matematik',
