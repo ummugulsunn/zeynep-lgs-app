@@ -39,7 +39,7 @@ function App() {
     practiceExams: [],
     youtubeLogs: {},
     youtubeLogsProgress: {},
-    siblingMessage: 'Ablan seni çok seviyor! Matematikten korkmak yok! 💖',
+    siblingMessage: 'Zeynoşum, LGS ve dersler sadece birer araç. Asıl önemli olan senin kendine inanman ve verdiğin emeğin değeridir. Başarı, her gün pes etmeden gösterdiğin o küçük çabalarla inşa edilir. Sen yetenekli ve güçlü bir kızsın, bu yolda ne kadar emek verirsen karşılığını o kadar alacaksın. Kendine güven, yapabileceğine inan, gerisi zaten gelecektir. Her zaman seninle gurur duyuyorum! 💖',
     readingStreak: { currentStreak: 0, highestStreak: 0, lastDate: null }
   });
   
