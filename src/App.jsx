@@ -143,15 +143,19 @@ function App() {
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [levelUpText, setLevelUpText] = useState('');
   const prevLevel = useRef(level);
+  const isFirstLoad = useRef(true);
 
   useEffect(() => {
-    if (isLoaded && level > prevLevel.current) {
-      confetti({ particleCount: 150, spread: 80, scalar: 1.2 });
-      setLevelUpText(`Tebrikler Zeynep! Seviye ${level} oldun! 🌟 Harikasın, öğrenmeye devam! 🎉`);
-      setShowLevelUp(true);
-    }
     if (isLoaded) {
-      prevLevel.current = level;
+      if (isFirstLoad.current) {
+        isFirstLoad.current = false;
+        prevLevel.current = level;
+      } else if (level > prevLevel.current) {
+        confetti({ particleCount: 150, spread: 80, scalar: 1.2 });
+        setLevelUpText(`Tebrikler Zeynep! Seviye ${level} oldun! 🌟 Harikasın, öğrenmeye devam! 🎉`);
+        setShowLevelUp(true);
+        prevLevel.current = level;
+      }
     }
   }, [level, isLoaded]);
 
