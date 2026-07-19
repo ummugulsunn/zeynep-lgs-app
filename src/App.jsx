@@ -7,6 +7,7 @@ import NodeModal from './components/NodeModal';
 import ZeynepBag from './components/ZeynepBag';
 import ReadingStreak from './components/ReadingStreak';
 import SOSButton from './components/SOSButton';
+import ActivityCalendar from './components/ActivityCalendar';
 import confetti from 'canvas-confetti';
 import './index.css';
 
@@ -39,6 +40,7 @@ function App() {
     practiceExams: [],
     youtubeLogs: {},
     youtubeLogsProgress: {},
+    activityHistory: {},
     siblingMessage: 'Zeynoşum, LGS ve dersler sadece birer araç. Asıl önemli olan senin kendine inanman ve verdiğin emeğin değeridir. Başarı, her gün pes etmeden gösterdiğin o küçük çabalarla inşa edilir. Sen yetenekli ve güçlü bir kızsın, bu yolda ne kadar emek verirsen karşılığını o kadar alacaksın. Kendine güven, yapabileceğine inan, gerisi zaten gelecektir. Her zaman seninle gurur duyuyorum! 💖',
     readingStreak: { currentStreak: 0, highestStreak: 0, lastDate: null }
   });
@@ -57,6 +59,14 @@ function App() {
           const targetsXP = completedTargets * 15 + (allCompleted ? 20 : 0);
           const dailyQuestXP = data.dailyXP || 0;
           const earnedXP = targetsXP + dailyQuestXP;
+
+          if (!data.activityHistory) data.activityHistory = {};
+          data.activityHistory[data.daily.date] = {
+            xpEarned: earnedXP,
+            targets: data.dailyTargets || [],
+            paragraf: data.daily.paragraf || false,
+            problem: data.daily.problem || false
+          };
 
           data.completedDailyXP = (data.completedDailyXP || 0) + earnedXP;
           data.daily = { date: today, paragraf: false, problem: false };
@@ -184,7 +194,8 @@ function App() {
   const tabs = [
     ...Object.values(SUBJECTS).map(s => ({ id: s.id, label: s.name, icon: s.icon, color: s.color })),
     { id: 'zeynep_bag', label: 'Zeynep\'in Çantası', icon: '🎒', color: '#FF9BBE' },
-    { id: 'dashboard', label: 'Zeynep\'in Karnesi', icon: '📊', color: '#B593FF' }
+    { id: 'dashboard', label: 'Zeynep\'in Karnesi', icon: '📊', color: '#B593FF' },
+    { id: 'calendar', label: 'Takvim', icon: '📅', color: '#4CAF50' }
   ];
 
   const needsDailyTargets = state.dailyTargetDate !== today;
@@ -507,6 +518,8 @@ function App() {
         <Dashboard state={state} subjects={SUBJECTS} onUpdate={handleUpdateState} />
       ) : activeTab === 'zeynep_bag' ? (
         <ZeynepBag state={state} onUpdate={handleUpdateState} currentXP={currentXP} isAdmin={isAdmin} />
+      ) : activeTab === 'calendar' ? (
+        <ActivityCalendar state={state} />
       ) : (
         <Roadmap 
           subject={SUBJECTS[activeTab]} 
