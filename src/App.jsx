@@ -149,6 +149,28 @@ function App() {
   const level = Math.floor(currentXP / 200) + 1;
   const xpIntoLevel = currentXP % 200;
 
+  // Birthday Celebration
+  const [showBirthday, setShowBirthday] = useState(false);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    const now = new Date();
+    const isBirthday = now.getMonth() === 6 && now.getDate() === 27; // July 27
+    if (isBirthday) {
+      setShowBirthday(true);
+      // Birthday confetti burst
+      const duration = 3000;
+      const end = Date.now() + duration;
+      const colors = ['#FF9BBE', '#B593FF', '#FFD700', '#86E3CE', '#FF7AA5', '#FFC0CB'];
+      const frame = () => {
+        confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors });
+        confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      };
+      frame();
+    }
+  }, [isLoaded]);
+
   // Level Up Watcher
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [levelUpText, setLevelUpText] = useState('');
@@ -672,6 +694,54 @@ function App() {
               Harika! Devam Et 🚀
             </button>
           </div>
+        </div>
+      )}
+
+      {/* Birthday Celebration Modal */}
+      {showBirthday && (
+        <div className="overlay open" onClick={() => setShowBirthday(false)} style={{ zIndex: 1001 }}>
+          <div className="modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '440px', textAlign: 'center', padding: '35px', background: 'linear-gradient(160deg, #FFF0F5, #FFF5FF, #F0F0FF)', border: '3px solid #FFD700' }}>
+            <div style={{ fontSize: '70px', marginBottom: '10px', animation: 'bounce 1s ease infinite' }}>🎂</div>
+            <div style={{ fontSize: '40px', marginBottom: '10px' }}>🎈🎀🎁🎀🎈</div>
+            <h2 style={{ fontFamily: 'Baloo 2', background: 'linear-gradient(90deg, #FF9BBE, #B593FF, #FF9BBE)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', margin: '0 0 8px', fontSize: '32px' }}>
+              İyi ki Doğdun Zeynep! 🥳
+            </h2>
+            <div style={{ fontSize: '16px', fontWeight: '800', color: 'var(--accent-purple)', marginBottom: '15px' }}>
+              🌟 Mutlu Yıllar! 🌟
+            </div>
+            <div style={{ background: 'rgba(255,255,255,0.8)', borderRadius: '20px', padding: '20px', marginBottom: '20px', border: '2px dashed #FFD700' }}>
+              <p style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: 'var(--text-main)', lineHeight: '1.7' }}>
+                Canım kardeşim, bugün senin özel günün! 💖<br /><br />
+                Bu dünyaya geldiğin gün en güzel günlerden biriydi.
+                Sen her gün büyüyen, öğrenen, gelişen muhteşem bir insansın.
+                Hayallerinin peşinden koşmaya devam et,
+                çünkü sen her şeyi başarabilecek güçte bir kızsın! 💪✨<br /><br />
+                Seni çok seviyorum, iyi ki varsın! 🫶🎉
+              </p>
+            </div>
+            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '20px' }}>
+              {['🧁', '🍰', '🎪', '🦋', '🌈', '💐', '🎵', '💝'].map((emoji, i) => (
+                <span key={i} style={{ fontSize: '28px', animation: `float ${1.5 + i * 0.2}s ease-in-out infinite alternate` }}>{emoji}</span>
+              ))}
+            </div>
+            <button 
+              onClick={() => setShowBirthday(false)}
+              className="btn"
+              style={{ background: 'linear-gradient(90deg, #FF9BBE, #B593FF)', marginTop: '5px', fontSize: '16px', padding: '14px 30px' }}
+            >
+              Teşekkürler Ablacığım! 💖
+            </button>
+          </div>
+          <style>{`
+            @keyframes bounce {
+              0%, 100% { transform: translateY(0); }
+              50% { transform: translateY(-15px); }
+            }
+            @keyframes float {
+              0% { transform: translateY(0) rotate(0deg); }
+              100% { transform: translateY(-10px) rotate(10deg); }
+            }
+          `}</style>
         </div>
       )}
 
