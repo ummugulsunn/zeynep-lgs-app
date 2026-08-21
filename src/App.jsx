@@ -13,6 +13,21 @@ import './index.css';
 
 const today = new Date().toISOString().split('T')[0];
 
+const DEFAULT_REWARDS = [
+  { id: 'r1', name: 'En sevdiğin tatlı / dondurma 🍦', xpRequired: 500, status: 'locked' },
+  { id: 'r2', name: '1 Saat Bilgisayar / Konsol saati 🎮', xpRequired: 1000, status: 'locked' },
+  { id: 'r3', name: 'Birlikte sinema keyfi 🎬', xpRequired: 2000, status: 'locked' },
+  { id: 'r4', name: 'İstediğin bir kitap siparişi 📚', xpRequired: 3000, status: 'locked' },
+  { id: 'r5', name: 'Trendyol cüzdanına 250 TL harçlık 💸', xpRequired: 4000, status: 'locked' },
+  { id: 'r6', name: 'Almanya\'dan özel atıştırmalık paketi 🍫', xpRequired: 5000, status: 'locked' },
+  { id: 'r7', name: 'İstediğin bir tişört / kıyafet siparişi 👕', xpRequired: 6000, status: 'locked' },
+  { id: 'r8', name: 'Kırtasiye alışverişi (Renkli kalemler, defter) 🖍️', xpRequired: 7000, status: 'locked' },
+  { id: 'r9', name: 'Spotify Premium veya Netflix aboneliği 🎧', xpRequired: 8000, status: 'locked' },
+  { id: 'r10', name: 'Sevimli bir telefon kılıfı veya aksesuar 📱', xpRequired: 9000, status: 'locked' },
+  { id: 'r11', name: 'Devasa bir kutlama veya en büyük hediye! 🎁', xpRequired: 10000, status: 'locked' },
+  { id: 'r12', name: 'İstediğin bir konser/etkinlik bileti 🎫', xpRequired: 15000, status: 'locked' }
+];
+
 function App() {
   const [activeTab, setActiveTab] = useState('matematik');
   const [state, setState] = useState({
@@ -27,20 +42,7 @@ function App() {
     dailyXP: 0,
     books: {},
     bookProgress: {},
-    rewards: [
-      { id: 'r1', name: 'En sevdiğin tatlı / dondurma 🍦', xpRequired: 500, status: 'locked' },
-      { id: 'r2', name: '1 Saat Bilgisayar / Konsol saati 🎮', xpRequired: 1000, status: 'locked' },
-      { id: 'r3', name: 'Birlikte sinema keyfi 🎬', xpRequired: 2000, status: 'locked' },
-      { id: 'r4', name: 'İstediğin bir kitap siparişi 📚', xpRequired: 3000, status: 'locked' },
-      { id: 'r5', name: 'Trendyol cüzdanına 250 TL harçlık 💸', xpRequired: 4000, status: 'locked' },
-      { id: 'r6', name: 'Almanya\'dan özel atıştırmalık paketi 🍫', xpRequired: 5000, status: 'locked' },
-      { id: 'r7', name: 'İstediğin bir tişört / kıyafet siparişi 👕', xpRequired: 6000, status: 'locked' },
-      { id: 'r8', name: 'Kırtasiye alışverişi (Renkli kalemler, defter) 🖍️', xpRequired: 7000, status: 'locked' },
-      { id: 'r9', name: 'Spotify Premium veya Netflix aboneliği 🎧', xpRequired: 8000, status: 'locked' },
-      { id: 'r10', name: 'Sevimli bir telefon kılıfı veya aksesuar 📱', xpRequired: 9000, status: 'locked' },
-      { id: 'r11', name: 'Devasa bir kutlama veya en büyük hediye! 🎁', xpRequired: 10000, status: 'locked' },
-      { id: 'r12', name: 'İstediğin bir konser/etkinlik bileti 🎫', xpRequired: 15000, status: 'locked' }
-    ],
+    rewards: DEFAULT_REWARDS,
     mistakes: [],
     focusHistory: [],
     dailyTargetDate: '',
@@ -85,6 +87,17 @@ function App() {
            data.daily = { date: today, paragraf: false, problem: false };
            data.dailyXP = 0;
         }
+        if (!data.rewards) {
+          data.rewards = [...DEFAULT_REWARDS];
+        } else {
+          DEFAULT_REWARDS.forEach(defaultReward => {
+            if (!data.rewards.find(r => r.id === defaultReward.id)) {
+              data.rewards.push(defaultReward);
+            }
+          });
+          data.rewards.sort((a, b) => a.xpRequired - b.xpRequired);
+        }
+
         setState(data);
         setIsLoaded(true);
       }
